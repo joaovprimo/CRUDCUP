@@ -1,0 +1,32 @@
+CREATE TABLE "palpites" (
+	"id" serial PRIMARY KEY,
+	"userId" integer NOT NULL REFERENCES "users"("id"),
+	"gameId" integer NOT NULL REFERENCES "games"("id"),
+	"gotIt" BOOLEAN NOT NULL DEFAULT FALSE,
+	"bet" TEXT NOT NULL,
+);
+
+
+
+CREATE TABLE "users" (
+	"id" serial PRIMARY KEY,
+	"username" TEXT NOT NULL UNIQUE
+);
+
+
+
+CREATE TABLE "games" (
+	"id" serial PRIMARY KEY,
+	"opened" BOOLEAN NOT NULL DEFAULT TRUE,
+	"score" TEXT NOT NULL DEFAULT '0x0'
+);
+
+
+
+
+
+
+
+
+
+
