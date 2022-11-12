@@ -7,4 +7,10 @@ async function postGamblersRepository(username : string) : Promise <QueryResult>
     `, [username]);
 }
 
-export {postGamblersRepository}
+async function getGamblersRepository(): Promise <QueryResult<string[]>>{
+    return await connection.query(`
+    SELECT * FROM users;
+    `);
+}
+
+export {postGamblersRepository, getGamblersRepository}
