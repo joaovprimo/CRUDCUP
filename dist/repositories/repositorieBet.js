@@ -35,24 +35,78 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import connection from "../database/database.js";
-function postGamblersRepository(username) {
+export function getUser(userId) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, connection.query("\n    INSERT INTO users (username) VALUES ($1);\n    ", [username])];
+                case 0: return [4 /*yield*/, connection.query("\n    SELECT * FROM users WHERE id = $1;\n    ", [userId])];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });
 }
-function getGamblersRepository() {
+export function getGame(gameId) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, connection.query("\n    SELECT * FROM users;\n    ")];
+                case 0: return [4 /*yield*/, connection.query("\n    SELECT * FROM games WHERE id = $1;\n    ", [gameId])];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });
 }
-export { postGamblersRepository, getGamblersRepository };
+export function postBeting(bets) {
+    return __awaiter(this, void 0, void 0, function () {
+        var userId, gameId, bet;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    userId = bets.userId, gameId = bets.gameId, bet = bets.bet;
+                    return [4 /*yield*/, connection.query("\nINSERT INTO palpites (\"userId\", \"gameId\", bet) VALUES ($1, $2, $3);\n", [userId, gameId, bet])];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+export function getGameById(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("\n    SELECT * FROM games WHERE id = $1;\n    ", [id])];
+        });
+    });
+}
+export function upDateGamebyId(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("\n    UPDATE games SET opened=FALSE WHERE id=$1;\n    ", [id])];
+        });
+    });
+}
+export function getBetsbyPerson(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("\n    SELECT * FROM palpites WHERE \"userId\" = $1;\n    ", [id])];
+        });
+    });
+}
+export function getRights() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("\n    SELECT \"userId\" AS \"user\", COUNT(\"gotIt\") as \"acertos\" FROM palpites WHERE \"gotIt\"=$1 GROUP BY \"userId\" ORDER BY \"acertos\" DESC; \n    ", [true])];
+        });
+    });
+}
+export function getBetById(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("\n    SELECT * FROM palpites WHERE id = $1; \n    ", [id])];
+        });
+    });
+}
+export function deleteBetByid(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("\n    DELETE FROM palpites WHERE id = $1; \n    ", [id])];
+        });
+    });
+}

@@ -11,7 +11,6 @@ app.use(express.json());
 
 app.use(routeGamblers);
 app.use(routeBets);
-//faltando implementar as rotas de post, get, update and delete a bet.
 
 app.listen(process.env.PORT, ()=>{
     console.log(`listening on port ${process.env.PORT}`)

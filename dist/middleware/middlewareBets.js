@@ -34,25 +34,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import connection from "../database/database.js";
-function postGamblersRepository(username) {
+import { betSchema } from "../schemas/schemaBet.js";
+export function middlewareBet(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, connection.query("\n    INSERT INTO users (username) VALUES ($1);\n    ", [username])];
-                case 1: return [2 /*return*/, _a.sent()];
+        var _a, userId, gameId, bet, validation, errors;
+        return __generator(this, function (_b) {
+            _a = req.body, userId = _a.userId, gameId = _a.gameId, bet = _a.bet;
+            validation = betSchema.validate({
+                userId: userId,
+                gameId: gameId,
+                bet: bet
+            }, { abortEarly: false });
+            if (validation.error) {
+                errors = validation.error.details.map(function (det) { return det.message; });
+                return [2 /*return*/, res.status(400).send(errors)];
             }
+            res.locals.bets = {
+                userId: userId,
+                gameId: gameId,
+                bet: bet
+            };
+            next();
+            return [2 /*return*/];
         });
     });
 }
-function getGamblersRepository() {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, connection.query("\n    SELECT * FROM users;\n    ")];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        });
-    });
-}
-export { postGamblersRepository, getGamblersRepository };

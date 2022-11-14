@@ -34,25 +34,46 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import connection from "../database/database.js";
-function postGamblersRepository(username) {
+import { postGamblersRepository, getGamblersRepository } from '../repositories/gamblersRepository.js';
+export function postGamblers(req, res) {
     return __awaiter(this, void 0, void 0, function () {
+        var username, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, connection.query("\n    INSERT INTO users (username) VALUES ($1);\n    ", [username])];
-                case 1: return [2 /*return*/, _a.sent()];
+                case 0:
+                    username = req.body.username;
+                    console.log(username);
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, postGamblersRepository(username)];
+                case 2:
+                    _a.sent();
+                    return [2 /*return*/, res.sendStatus(200)];
+                case 3:
+                    err_1 = _a.sent();
+                    return [2 /*return*/, res.status(500).send(err_1.message)];
+                case 4: return [2 /*return*/];
             }
         });
     });
 }
-function getGamblersRepository() {
+export function getGamblers(req, res) {
     return __awaiter(this, void 0, void 0, function () {
+        var listGamblers, err_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, connection.query("\n    SELECT * FROM users;\n    ")];
-                case 1: return [2 /*return*/, _a.sent()];
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, getGamblersRepository()];
+                case 1:
+                    listGamblers = _a.sent();
+                    return [2 /*return*/, res.send(listGamblers.rows)];
+                case 2:
+                    err_2 = _a.sent();
+                    return [2 /*return*/, res.status(500).send(err_2.message)];
+                case 3: return [2 /*return*/];
             }
         });
     });
 }
-export { postGamblersRepository, getGamblersRepository };
