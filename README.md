@@ -34,7 +34,7 @@ npm start
 <h3> Rotes </h3>
 <h4>Routes Gamblers</h4>
 <p>POST: /gambler
-Body: { "username": "Ronaldo Nazário"}</p>
+Body: { "username": "Ronaldo Nazario"}</p>
 <p>GET: /gambler/p>
 <h4>Routes Bets</h4>
 <p>POST: /bets
